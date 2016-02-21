@@ -17,6 +17,12 @@ class TweetController: UIViewController,UITableViewDelegate, UITableViewDataSour
     var cureent_user = User.currentUser
     var tweets = [Tweet]()
     
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        return refreshControl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -28,17 +34,28 @@ class TweetController: UIViewController,UITableViewDelegate, UITableViewDataSour
                 self.tweets = tweets
             }
               self.tableView.reloadData()
-            
-            
         })
-        
-        
-      
-        
         // Do any additional setup after loading the view.
+        self.tableView.addSubview(self.refreshControl)
+        
     }
     
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        TwitterClient.sharedInstance.homeTimeLineWithParams(nil, completion:{(tweets, error) -> () in
+            if let tweets = tweets{
+                self.tweets = tweets
+            }
+            self.tableView.reloadData()
+        })
+       
+        refreshControl.endRefreshing()
+    }
+
     
+    @IBAction func onLogoutClicked(sender: AnyObject) {
+       cureent_user = nil
+        self.dismissViewControllerAnimated(true, completion: {});
+    }
     @IBAction func likeButtonOnClick(sender: AnyObject) {
         if let button = sender as? UIButton {
             if let superview = button.superview {
@@ -73,20 +90,7 @@ class TweetController: UIViewController,UITableViewDelegate, UITableViewDataSour
     func hoursFrom(date:NSDate) -> Int{
         return NSCalendar.currentCalendar().components(.Hour, fromDate: date, toDate: NSDate(), options: []).hour
     }
-    
-//    func calHours(date: NSDate) -> Int{
-//        var calendar: NSCalendar = NSCalendar.currentCalendar()
-//        
-//        // Replace the hour (time) of both dates with 00:00
-//        
-//        
-//        
-//        let day = calendar.components(.Day, fromDate: date1, toDate: date2, options: nil)
-//        let hour = calendar.components(.Hour, fromDate: date1, toDate: date2, options: nil)
-//        
-//        return 24 * day + hour
-//    
-//    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
