@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if User.currentUser != nil{
             print("Current user detected: \(User.currentUser?.name)")
             var vc =
-            storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as UIViewController
+            storyboard.instantiateViewControllerWithIdentifier("LoginController") as UIViewController
             window?.rootViewController = vc
             
         }

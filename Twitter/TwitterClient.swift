@@ -41,8 +41,9 @@ class TwitterClient: BDBOAuth1SessionManager {
     func postHasNotBeenRetweeted(id: Int?, completion: (error: NSError?) -> ()){
         let sid = String(id!)
         //print("https://api.twitter.com/1.1/statuses/retweet/\(sid).json")
+        print(sid)
         POST("1.1/statuses/retweet/\(sid).json", parameters: nil, progress: nil, success: { (operation: NSURLSessionDataTask!, response: AnyObject?) -> Void in
-            print("homeline \(response)")
+            //print("homeline \(response)")
            //var tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
             completion(error: nil)
             }, failure: { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
@@ -72,8 +73,9 @@ class TwitterClient: BDBOAuth1SessionManager {
         let sid = String(id!)
         POST("1.1/favorites/create.json?id=\(sid)", parameters: nil, progress: nil, success: { (operation: NSURLSessionDataTask!, response: AnyObject?) -> Void in
             completion(error: nil)
+            print("liked")
             }, failure: { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
-                print("Failed in posting my retweet count")
+                print("Failed in posting my like count")
                 print(error)
                 completion(error: error)
         })
@@ -83,8 +85,9 @@ class TwitterClient: BDBOAuth1SessionManager {
         let sid = String(id!)
         POST("1.1/favorites/destroy.json?id=\(sid)", parameters: nil, progress: nil, success: { (operation: NSURLSessionDataTask!, response: AnyObject?) -> Void in
             completion(error: nil)
+            print("unliked")
             }, failure: { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
-                print("Failed in posting my retweet count")
+                print("Failed in posting my unliked count")
                 print(error)
                 completion(error: error)
         })

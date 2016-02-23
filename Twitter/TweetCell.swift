@@ -33,6 +33,8 @@ class TweetCell: UITableViewCell {
     
     @IBOutlet weak var favorCountLabel: UILabel!
     
+    var tweet: Tweet?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

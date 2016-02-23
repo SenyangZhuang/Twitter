@@ -34,8 +34,8 @@ class Tweet: NSObject {
         //print(favorriteCount!)
         retweetCount = self.dictionary["retweet_count"] as! Int
         self.id = self.dictionary["id"] as! Int
-        self.isLiked = false
-        self.isRetweeted = false
+        self.isLiked = self.dictionary["favorited"] as! Bool
+        self.isRetweeted = self.dictionary["retweeted"] as! Bool
         
         
     }
